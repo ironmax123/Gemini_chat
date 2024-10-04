@@ -1,14 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'dart:math' as math;
 
 import 'lang_page.dart';
+import 'list.dart';
 
 void main() async {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -38,9 +37,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<String> _messages = [];
-  final List<String> _Lang =["タイ語","フィンランド後","ギリシャ語","ロシア語"];
-  String msg="";
+  final LanguageList languageList = LanguageList();
+  String msg = "";
   final controller = TextEditingController();
+  final api = "APIkey";
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>LangPage()),
+              MaterialPageRoute(builder: (context) => LangPage()),
             );
           },
         ),
@@ -61,31 +61,59 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: [
-            TextField(
-              decoration: const InputDecoration(
-                hintText: 'プロンプトを入力',
-              ),
-              onChanged: (text) {
-                msg = text;
-              },
-              controller: controller,
-            ),
             ElevatedButton(
-              onPressed: () async {
-                controller.clear();
-                var random = math.Random();
-                final randomNum=random.nextInt(_Lang.length);
-
-                final model = GenerativeModel(model: 'gemini-pro', apiKey: "API_KEY");
-                final prompt = '$msg出力結果を ${_Lang[randomNum]}に変換';
-                final response = await model.generateContent([Content.text(prompt)]);
-                setState(() {
-                  _messages.insert(0,"");
-                  _messages.insert(0,"Gemini:${response.text}");
-                  _messages.insert(0,"me:$msg");
-                });
-              }, //_sendMessage,
-              child: const Text('送信'),
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Container(
+                      height: 250 + MediaQuery.of(context).viewInsets.bottom,
+                      color: Colors.blue[200],
+                      child: Center(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextField(
+                                decoration: const InputDecoration(
+                                  hintText: 'プロンプトを入力',
+                                ),
+                                onChanged: (text) {
+                                  setState(() {
+                                    msg = text;
+                                  });
+                                },
+                                controller: controller,
+                              ),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  controller.clear();
+                                  var random = math.Random();
+                                  final randomNum = random
+                                      .nextInt(languageList.lang_list.length);
+                                  final model = GenerativeModel(
+                                      model: 'gemini-pro', apiKey: api);
+                                  final re_lang =
+                                      languageList.lang_list[randomNum];
+                                  final prompt = '$msgの出力結果を${re_lang}に変換して';
+                                  final response = await model
+                                      .generateContent([Content.text(prompt)]);
+                                  setState(() {
+                                    _messages.insert(0, "");
+                                    _messages.insert(
+                                        0, "Gemini:${response.text}");
+                                    _messages.insert(0, re_lang);
+                                    _messages.insert(0, "me:$msg");
+                                  });
+                                }, //_sendMessage,
+                                child: const Text('送信'),
+                              ),
+                            ]),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: const Text('入力'),
             ),
             Expanded(
               child: SizedBox(
