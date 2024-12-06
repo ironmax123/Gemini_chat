@@ -1,9 +1,10 @@
-import 'main.dart';
 import 'package:flutter/material.dart';
 import 'list.dart';
 
 class LangPage extends StatelessWidget {
   final LanguageList languageList = LanguageList();
+
+  LangPage({super.key});
 
   @override
   Widget build(BuildContext context) {

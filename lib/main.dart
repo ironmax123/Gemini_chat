@@ -1,17 +1,17 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'dart:math' as math;
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'lang_page.dart';
 import 'list.dart';
 
 void main() async {
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final LanguageList languageList = LanguageList();
   String msg = "";
   final controller = TextEditingController();
-  final api = "APIkey";
+  final api = dotenv.get('API_KEY');
 
   @override
   Widget build(BuildContext context) {
@@ -70,44 +70,40 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 250 + MediaQuery.of(context).viewInsets.bottom,
                       color: Colors.blue[200],
                       child: Center(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              TextField(
-                                decoration: const InputDecoration(
-                                  hintText: 'プロンプトを入力',
-                                ),
-                                onChanged: (text) {
-                                  setState(() {
-                                    msg = text;
-                                  });
-                                },
-                                controller: controller,
-                              ),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  controller.clear();
-                                  var random = math.Random();
-                                  final randomNum = random
-                                      .nextInt(languageList.lang_list.length);
-                                  final model = GenerativeModel(
-                                      model: 'gemini-pro', apiKey: api);
-                                  final re_lang =
-                                      languageList.lang_list[randomNum];
-                                  final prompt = '$msgの出力結果を${re_lang}に変換して';
-                                  final response = await model
-                                      .generateContent([Content.text(prompt)]);
-                                  setState(() {
-                                    _messages.insert(0, "");
-                                    _messages.insert(
-                                        0, "Gemini:${response.text}");
-                                    _messages.insert(0, re_lang);
-                                    _messages.insert(0, "me:$msg");
-                                  });
-                                }, //_sendMessage,
-                                child: const Text('送信'),
-                              ),
-                            ]),
+                        child: Column(children: [
+                          TextField(
+                            decoration: const InputDecoration(
+                              hintText: 'プロンプトを入力',
+                            ),
+                            onChanged: (text) {
+                              setState(() {
+                                msg = text;
+                              });
+                            },
+                            controller: controller,
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
+                              controller.clear();
+                              var random = math.Random();
+                              final randomNum =
+                                  random.nextInt(languageList.lang_list.length);
+                              final model = GenerativeModel(
+                                  model: 'gemini-pro', apiKey: api);
+                              final reLang = languageList.lang_list[randomNum];
+                              final prompt = '$msgの出力結果を$reLangに変換して';
+                              final response = await model
+                                  .generateContent([Content.text(prompt)]);
+                              setState(() {
+                                _messages.insert(0, "");
+                                _messages.insert(0, "Gemini:${response.text}");
+                                _messages.insert(0, reLang);
+                                _messages.insert(0, "me:$msg");
+                              });
+                            }, //_sendMessage,
+                            child: const Text('送信'),
+                          ),
+                        ]),
                       ),
                     );
                   },
