@@ -9,12 +9,12 @@ class SendData {
     final reLang = languageList.lang_list[randomNum];
     final prompt = '${controller.text}の出力結果を$reLangに変換して';
     final response = await model.generateContent([Content.text(prompt)]);
-    controller.clear();
     onMessageSend(
-      "me:${controller.text}",
-      reLang,
       "Gemini:${response.text}",
+      reLang,
+      "me:${controller.text}",
       "",
     );
+    controller.clear();
   }
 }
