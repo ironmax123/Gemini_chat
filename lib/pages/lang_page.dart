@@ -14,6 +14,6 @@ class LangPage extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: const Text('変換される言語一覧'),
         ),
-        body: langlistWidget(languageList.lang_list, context));
+        body: langlistWidget(languageList.langlist, context));
   }
 }

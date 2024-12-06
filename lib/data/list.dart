@@ -1,5 +1,5 @@
 class LanguageList {
-  List<String> lang_list = [
+  List<String> langlist = [
     "タイ語",
     "フィンランド語",
     "ギリシャ語",
