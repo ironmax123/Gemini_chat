@@ -4,8 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../data/list.dart';
 import 'components/List_Views/home_view.dart';
-import 'components/bottom_sheet.dart';
-import 'Lang_list/lang_page.dart';
+import 'components/bottom_sheet/home_sheet.dart';
+import 'lang_page.dart';
 
 class HomePage extends HookWidget {
   HomePage({super.key});

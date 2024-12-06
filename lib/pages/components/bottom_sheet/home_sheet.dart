@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gemini_chat/apis/send_data.dart';
 
-import '../../data/list.dart';
+import '../../../data/list.dart';
 
 // ignore: must_be_immutable
 class BottomSheetWidget extends StatelessWidget {
