@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'dart:math' as math;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'lang_page.dart';
-import 'list.dart';
+import 'pages/list_views/lang_page.dart';
+import 'data/list.dart';
 
 void main() async {
   await dotenv.load(fileName: '.env');

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/list.dart';
+import '../../data/list.dart';
 
 class LangPage extends StatelessWidget {
   final LanguageList languageList = LanguageList();
