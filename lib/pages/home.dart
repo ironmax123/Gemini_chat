@@ -1,12 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 
-import '../data/list.dart';
-import 'components/List_Views/home_view.dart';
+import 'lang/data/list.dart';
+import 'components/List_Views/view.dart';
 import 'components/bottom_sheet/home_sheet.dart';
-import 'lang_page.dart';
 
+@RoutePage()
 class HomePage extends HookWidget {
   HomePage({super.key});
 
@@ -35,11 +37,8 @@ class HomePage extends HookWidget {
         title: const Text("Geminiとチャットしよう！"),
         leading: IconButton(
           icon: const Icon(Icons.language),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => LangPage()),
-            );
+          onPressed: () async {
+            context.push('/lang');
           },
         ),
       ),
@@ -62,7 +61,7 @@ class HomePage extends HookWidget {
               },
               child: const Text('入力'),
             ),
-            homelistWidget(messages.value, context),
+            listWidget(messages.value, context, useExpanded: true),
           ],
         ),
       ),

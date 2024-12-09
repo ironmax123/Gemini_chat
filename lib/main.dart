@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:gemini_chat/pages/home.dart';
+import 'package:gemini_chat/router/router.dart';
 
 void main() async {
   await dotenv.load(fileName: '.env');
@@ -13,13 +13,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Gemini_Chat',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
-        useMaterial3: true,
-      ),
-      home: HomePage(),
+    return MaterialApp.router(
+      routerConfig: goRouter,
     );
   }
 }
