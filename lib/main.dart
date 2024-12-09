@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gemini_chat/router/router.dart';
 
@@ -15,6 +14,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: goRouter,
+      title: 'Gemini_Chat',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
+        useMaterial3: true,
+      ),
     );
   }
 }
