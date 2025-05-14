@@ -1,9 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gemini_chat/pages/components/List_Views/view.dart';
 import 'data/list.dart';
 
-@RoutePage()
 class LangPage extends StatelessWidget {
   LangPage({super.key});
   final LanguageList languageList = LanguageList();

@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -8,7 +7,6 @@ import 'lang/data/list.dart';
 import 'components/List_Views/view.dart';
 import 'components/bottom_sheet/home_sheet.dart';
 
-@RoutePage()
 class HomePage extends HookWidget {
   HomePage({super.key});
 
