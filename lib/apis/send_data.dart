@@ -7,7 +7,7 @@ class SendData {
     final randomNum = random.nextInt(languageList.langlist.length);
     final model = GenerativeModel(model: 'gemini-2.0-flash', apiKey: api);
     final reLang = languageList.langlist[randomNum];
-    final prompt = '${controller.text}の出力結果を$reLangに変換して教えて';
+    final prompt = '${controller.text}を$reLangで答えてください。説明は不要です。';
     final response = await model.generateContent([Content.text(prompt)]);
     onMessageSend(
       "Gemini:${response.text}",
